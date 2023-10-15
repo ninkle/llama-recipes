@@ -86,9 +86,10 @@ def main(**kwargs):
                 device_map="auto" if train_config.quantization else None,
                 use_cache=use_cache,
                 token=os.environ["HUGGINGFACE_TOKEN"]
+                
             )
         else:
-            llama_config = LlamaConfig.from_pretrained(train_config.model_name)
+            llama_config = LlamaConfig.from_pretrained(train_config.model_name, token=os.environ["HUGGINGFACE_TOKEN"])
             llama_config.use_cache = use_cache
             with torch.device("meta"):
                 model = LlamaForCausalLM(llama_config)
@@ -99,6 +100,7 @@ def main(**kwargs):
             load_in_8bit=True if train_config.quantization else None,
             device_map="auto" if train_config.quantization else None,
             use_cache=use_cache,
+            token=os.environ["HUGGINGFACE_TOKEN"]
         )
     if train_config.enable_fsdp and train_config.use_fast_kernels:
         """
@@ -122,7 +124,7 @@ def main(**kwargs):
         model.to(torch.bfloat16)
 
     # Load the tokenizer and add special tokens
-    tokenizer = AutoTokenizer.from_pretrained(train_config.model_name)
+    tokenizer = AutoTokenizer.from_pretrained(train_config.model_name, token=os.environ["HUGGINGFACE_TOKEN"])
     tokenizer.add_special_tokens(
             {
 
