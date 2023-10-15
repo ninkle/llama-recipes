@@ -46,6 +46,7 @@ from llama_recipes.utils.train_utils import (
 
 
 def main(**kwargs):
+    print("!!!!!!!!!!!!!!!!!")
     # Update the configuration for the training and sharding process
     update_config((train_config, fsdp_config), **kwargs)
 
