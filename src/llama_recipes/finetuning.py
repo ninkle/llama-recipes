@@ -85,6 +85,7 @@ def main(**kwargs):
                 load_in_8bit=True if train_config.quantization else None,
                 device_map="auto" if train_config.quantization else None,
                 use_cache=use_cache,
+                token=os.environ["HUGGINGFACE_TOKEN"]
             )
         else:
             llama_config = LlamaConfig.from_pretrained(train_config.model_name)
